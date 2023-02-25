@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    [SerializeField] private float _damage;
     [SerializeField] private float _health;
+    [SerializeField] private Bullet _bullet;
+    [SerializeField] private float _timeBetweenShoots;
+    [SerializeField] private GameObject _shootPoint;
 
     private Queue<Enemy> _enemies;
     private Enemy _targetEnemy;
-    //private List<Enemy> _enemyList;
+    private float _timer;
 
     private void Start()
     {
         _enemies= new Queue<Enemy>();
-        //_enemyList= new List<Enemy>();
+        _timer = 0;
     }
 
     private void Update()
@@ -27,14 +29,18 @@ public class Tower : MonoBehaviour
         if (_targetEnemy != null)
         {
             transform.LookAt(_targetEnemy.transform);
-
+            if (_timer > _timeBetweenShoots)
+            {
+                Instantiate(_bullet, _shootPoint.transform.position, transform.rotation);
+                _timer = 0;
+            }
+            _timer += Time.deltaTime;
         }
     }
 
     public void AddEnemyInQueue(Enemy enemy)
     {
         _enemies.Enqueue(enemy);
-        //_enemyList.Add(enemy);
         Debug.Log("added");
     }
 
@@ -43,5 +49,6 @@ public class Tower : MonoBehaviour
         _health -= _targetEnemy.Damage;
         _targetEnemy.Dead();
     }
+
 
 }

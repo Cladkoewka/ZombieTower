@@ -42,4 +42,13 @@ public class Enemy : MonoBehaviour
     }
 
 
+    public void GetDamage(float _damage)
+    {
+        _health -= _damage;
+        if(_health <= 0)
+        {
+            Dead();
+        }
+    }
+
 }
