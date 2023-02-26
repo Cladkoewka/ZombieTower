@@ -8,6 +8,7 @@ public class Tower : MonoBehaviour
     [SerializeField] private Bullet _bullet;
     [SerializeField] private float _timeBetweenShoots;
     [SerializeField] private GameObject _shootPoint;
+    [SerializeField] private FireArea _fireArea;
 
     private Queue<Enemy> _enemies;
     private Enemy _targetEnemy;
