@@ -8,11 +8,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _damage;
     [SerializeField] private float _health;
+    [SerializeField] private int _reward;
 
     public float Damage => _damage;
 
     private Tower _tower;
-
 
     private void Start()
     {
@@ -39,6 +39,7 @@ public class Enemy : MonoBehaviour
     public void Dead()
     {
         Destroy(gameObject);
+        _tower.AddMoney(_reward);
     }
 
 
@@ -50,5 +51,4 @@ public class Enemy : MonoBehaviour
             Dead();
         }
     }
-
 }

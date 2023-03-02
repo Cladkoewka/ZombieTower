@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,9 +8,11 @@ public class NextWaveButton : MonoBehaviour
 {
     [SerializeField] private Spawner _spawner;
     [SerializeField] private Button _button;
+    [SerializeField] private WaveNumberText _waveNumberText;
+
 
     private void OnEnable()
-    {
+    {    
         _spawner.AllEnemySpawned += OnAllEnemySpawned;
         _button.onClick.AddListener(OnNextWaveButtonClick);
     }
@@ -30,5 +33,6 @@ public class NextWaveButton : MonoBehaviour
         _spawner.StarNextWave();
         _button.gameObject.SetActive(false);
     }
+
 
 }

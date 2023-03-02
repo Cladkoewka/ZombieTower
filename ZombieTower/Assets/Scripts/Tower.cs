@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Tower : MonoBehaviour
 {
@@ -13,11 +14,15 @@ public class Tower : MonoBehaviour
     private Queue<Enemy> _enemies;
     private Enemy _targetEnemy;
     private float _timer;
+    private int _money =0;
+
+    public UnityEvent<int> ChangeMoney;
 
     private void Start()
     {
         _enemies= new Queue<Enemy>();
-        _timer = 0;
+        _timer = _timeBetweenShoots;
+        ChangeMoney?.Invoke(_money);
     }
 
     private void Update()
@@ -25,6 +30,7 @@ public class Tower : MonoBehaviour
         if (_enemies.Count > 0 && _targetEnemy == null)
         {
             _targetEnemy = _enemies.Dequeue();
+            ChangeMoney?.Invoke(_money);
         }
 
         if (_targetEnemy != null)
@@ -42,7 +48,6 @@ public class Tower : MonoBehaviour
     public void AddEnemyInQueue(Enemy enemy)
     {
         _enemies.Enqueue(enemy);
-        Debug.Log("added");
     }
 
     public void GetDamage(Enemy enemy)
@@ -51,5 +56,13 @@ public class Tower : MonoBehaviour
         _targetEnemy.Dead();
     }
 
+    public void AddMoney(int money)
+    {
+        _money += money;
+    }
 
+    public void RemoveMoney(int money)
+    {
+        _money -= money;
+    }
 }

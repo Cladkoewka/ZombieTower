@@ -9,13 +9,14 @@ public class Spawner : MonoBehaviour
     [SerializeField] private List<Wave> _waves;
     [SerializeField] private float _delayBetweenWaves;
 
-    private bool _isLastWaveEnded = true;
+    private bool _isLastWaveEnded = false;
     private Wave _currentWave;
     private int _waveCounter = 0;
     private int _spawnedEnemy = 0;
 
     public event UnityAction AllEnemySpawned;
     public event UnityAction<int, int> EnemyCountChanged;
+    public event UnityAction<int> WaveChanged;
     private void Update()
     {
         if (_isLastWaveEnded)
@@ -25,6 +26,7 @@ public class Spawner : MonoBehaviour
             EnemyCountChanged?.Invoke(0, 1);
             StartCoroutine(Spawn(_currentWave));
             _waveCounter++;
+            WaveChanged?.Invoke(_waveCounter);
         }
     }
 
@@ -38,9 +40,9 @@ public class Spawner : MonoBehaviour
             EnemyCountChanged?.Invoke(_spawnedEnemy, _currentWave._countZombie);
             yield return new WaitForSeconds(wave._delayBetweenSpawn);
         }
-        _spawnedEnemy = 0;
         yield return new WaitForSeconds(_delayBetweenWaves);
         AllEnemySpawned?.Invoke();
+        _spawnedEnemy = 0;
     }
 
     public void StarNextWave()
